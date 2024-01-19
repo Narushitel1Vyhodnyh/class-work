@@ -13,6 +13,7 @@
 @include('includes.menu')
     <main>
         @yield('content')
+
     </main>
 </body>
 </html>
