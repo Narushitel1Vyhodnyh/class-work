@@ -17,4 +17,7 @@
     <li>
         <a href="{{ route('price') }}">{{ __('Цена') }}</a>
     </li>
+    <li>
+        <a href="{{ route('post.index') }}">{{ __('Все записи') }}</a>
+    </li>
 </ul>
