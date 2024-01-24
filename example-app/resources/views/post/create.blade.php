@@ -1,7 +1,8 @@
 @extends('layout.master')
 
 @section('content')
-    <form method="POST" enctype="multipart/form-data">
+    <div class="container">
+    <form method="POST" action="{{ route('post.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Название поста</label>
@@ -20,4 +21,5 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+    </div>
 @endsection
