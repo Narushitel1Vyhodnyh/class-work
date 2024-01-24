@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container">
+    @if($message = Session::get('success'))
+        <p>{{$message}}</p>
+    @endif
     <row>
         <a href="{{route('post.create')}}" class="button button-primary">{{__('Новый Пост')}}</a>
     </row>
@@ -10,18 +13,31 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Название поста</th>
+                <th scope="col">Описание поста</th>
+                <th scope="col">Изображение</th>
+                <th scope="col">Действие</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
+            @forelse($posts as $post)
+                <tr>
+                    <th scope="row">{{ $post->id }}</th>
+                    <td>{{ $post->title }}</td>
+                    <td>{{ $post->text }}</td>
+                    <td><img width="150" height="150" src="/images/{{$post->image}}" alt=""></td>
+                    <td>
+                        <form method="POST" action="{{route('post.delete', $post->id) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                {{__('Данные не найдены')}}
+            @endforelse
+
             <tr>
                 <th scope="row">2</th>
                 <td>Jacob</td>
