@@ -40,3 +40,8 @@ Route::prefix('/category') -> group(function () {
 Route::prefix('/product') -> group(function (){
    Route::get('', [\App\Http\Controllers\Admin\ProductController::class, 'index'])-> name('product.index');
 });
+Route::prefix('/tovar')->group(function (){
+    Route::get('/index', [\App\Http\Controllers\Admin\ProductController::class, 'index'])->name('tovar.index');
+    Route::get('/create', [\App\Http\Controllers\Admin\ProductController::class, 'create'])->name('tovar.create');
+    Route::post('/store', [\App\Http\Controllers\Admin\ProductController::class, 'store'])->name('tovar.store');
+});
