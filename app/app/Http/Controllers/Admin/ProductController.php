@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -12,7 +15,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('tovar.index');
+        $products = Product::all();
+        return view('tovar.index', compact('products'));
     }
 
     /**
@@ -20,7 +24,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('tovar.create');
+        $categories = Category::where('is_active', 1)->get();
+        return view('tovar.create', compact('categories'));
     }
 
     /**
@@ -28,7 +33,25 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'text' => 'required',
+            'is_active' => 'required',
+            'category_id' => 'required'
+        ]);
+
+        $input = $request->all();
+
+        if($image = $request->file('image')){
+            $destionPath = 'images/products/';
+            $profileImage = date('YmHis') . "." . $image-> getClientOriginalExtension();
+            $image->move($destionPath, $profileImage);
+            $input['image'] = "$profileImage";
+        }
+
+        Product::create($input);
+
+        return redirect()->route('tovar.index')->with('success', 'Ваш товар успешно добален');
     }
 
     /**
